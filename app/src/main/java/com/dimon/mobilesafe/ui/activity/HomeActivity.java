@@ -1,4 +1,4 @@
-package com.dimon.mobilesafe.activity;
+package com.dimon.mobilesafe.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
 
 import com.dimon.mobilesafe.R;
+import com.dimon.mobilesafe.ui.adapter.MyRecycleHolder;
 import com.dimon.mobilesafe.ui.adapter.RecyclerViewAdapter;
 
 import butterknife.Bind;
@@ -50,10 +53,23 @@ public class HomeActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setNestedScrollingEnabled(false);
         // 初始化自定义的适配器
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mItems, mPics);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mItems, mPics){
+
+            @Override
+            public void convert(MyRecycleHolder holder, int position) {
+                holder.setText(mItems[position]);
+                holder.setImageResource(mPics[position]);
+            }
+        };
         // 为mRecyclerView设置适配器
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
+        mRecyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickListener(View view, int position) {
+                Toast.makeText(HomeActivity.this, "点击" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

@@ -1,4 +1,4 @@
-package com.dimon.mobilesafe.activity;
+package com.dimon.mobilesafe.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,7 @@ import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.socks.library.KLog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,7 +52,7 @@ public class SplashActivity extends Activity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case CODE_UPDATE_DIALOG:
-                    System.out.println("进入Handler,准备生成Dailog");
+                    KLog.a("进入Handler,准备生成Dailog");
                     showUpdateDialog();
                     break;
                 case CODE_URL_ERROR:
@@ -142,13 +143,13 @@ public class SplashActivity extends Activity {
                     connection.setConnectTimeout(5000);
 
                     //connection.connect();
-                    System.out.println("网络返回" + connection.getResponseCode());
+                    KLog.d("网络返回" + connection.getResponseCode());
                     if (connection.getResponseCode() == 200) {
                         jsonString = changInputStream(connection.getInputStream());
                         update = GsonTools.getUpdate(jsonString, Update.class);     //解析json
-                        System.out.println("解析完json：" + update.toString());
+                        KLog.a("解析完json：" + update.toString());
                         if (update.getVersionCode() > getVersionCode()) {       //检测是否需要升级
-                            System.out.println("需要升级：" + update.getVersionCode() + ">" + getVersionCode());
+                            KLog.i("需要升级：" + update.getVersionCode() + ">" + getVersionCode());
                             msg.what = CODE_UPDATE_DIALOG;
                         }
                     } else {
@@ -216,14 +217,14 @@ public class SplashActivity extends Activity {
      */
     public void showUpdateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        System.out.println("生成Dialo...");
+        KLog.a("生成Dialo...");
         builder.setTitle("最新版本" + update.getVersionName());
         builder.setMessage(update.getDescription());
         //builder.setCancelable(false);     //不让用户返回,用户体验太差，尽量不用
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println("立即更新");
+                KLog.a("立即更新");
                 download();
             }
         });
@@ -231,7 +232,7 @@ public class SplashActivity extends Activity {
         builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println("不更新你后悔！！！");
+                KLog.a("不更新你后悔！！！");
                 enterHome();
             }
         });

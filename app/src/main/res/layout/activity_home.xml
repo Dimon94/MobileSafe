@@ -5,7 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.HomeActivity">
+    tools:context=".ui.activity.HomeActivity">
 
 
     <android.support.design.widget.CoordinatorLayout
@@ -24,8 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginStart="@dimen/expanded_toolbar_title_margin_start"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:expandedTitleMarginStart="@dimen/expanded_toolbar_title_margin_start">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -51,6 +50,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
